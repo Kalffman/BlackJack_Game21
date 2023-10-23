@@ -11,6 +11,7 @@ As cartas numéricas têm o mesmo valor indicado na própria carta, enquanto as 
 de figura (valete, dama e rei) valem 10 pontos cada, com exceção do ás, que 
 pode valer um ponto ou 11 pontos.
 
+
 ### Exemplo:
 
 | carta           | pontos  |
@@ -20,6 +21,7 @@ pode valer um ponto ou 11 pontos.
 | Valete de ouro  | 10      |
 | Damas de espada | 10      |
 | Ás de ouro      | 1 ou 10 |
+
 
 ## Como subir a aplicação
 
@@ -32,6 +34,8 @@ Para executar a aplicação execute o seguinte comando no diretório raiz do pro
 ./gradlew build :application:bootRun
 ```
 
+## Acesso aos recursos
+
 Estará disponível os contratos da aplicação (swagger) no seguinte endereço:
 
-http://localhost:8080/swagger-ui.html
+http://localhost:8080/game-21/swagger-ui.html
