@@ -1,4 +1,0 @@
-dependencies {
-    implementation project(":input")
-    implementation project(":output")
-}
