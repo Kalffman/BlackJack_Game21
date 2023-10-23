@@ -1,0 +1,8 @@
+rootProject.name = "game21"
+
+include ":application"
+include ":input"
+include ":output"
+include ":redis"
+include ":domain"
+include ":rest"

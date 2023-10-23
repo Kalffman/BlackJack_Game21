@@ -1,0 +1,60 @@
+plugins {
+    id "java"
+    id "org.springframework.boot" version "3.1.5"
+    id "io.spring.dependency-management" version "1.1.3"
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+/* Disable for root config. There is no "src" folder */
+bootJar {
+    enabled = false
+}
+
+/* The default configurations was repass to gradle sub modules */
+subprojects {
+    group "com.kalffman.projects"
+    version "0.9.0"
+
+    apply plugin: "java"
+    apply plugin: "org.springframework.boot"
+    apply plugin: "io.spring.dependency-management"
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_21
+    }
+
+    /* Disabled by default */
+    bootJar {
+        enabled = false
+    }
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
+    dependencies {
+
+        developmentOnly "org.springframework.boot:spring-boot-devtools"
+
+        testImplementation "org.springframework.boot:spring-boot-starter-test"
+
+        annotationProcessor "org.projectlombok:lombok"
+
+        compileOnly "org.projectlombok:lombok"
+    }
+
+    tasks.named("test") {
+        useJUnitPlatform()
+    }
+}
