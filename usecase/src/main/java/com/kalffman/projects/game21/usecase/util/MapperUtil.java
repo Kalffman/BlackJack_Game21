@@ -13,6 +13,9 @@ import com.kalffman.projects.game21.output.dto.CardOutputDTO;
 import com.kalffman.projects.game21.output.dto.PlayerOutputDTO;
 import com.kalffman.projects.game21.output.dto.MatchOutputDTO;
 
+import java.util.Arrays;
+import java.util.List;
+
 public final class MapperUtil {
 
     public static Match toMatch(MatchOutputDTO dto) {
@@ -66,9 +69,9 @@ public final class MapperUtil {
     public static Player toPlayer(PlayerInputDTO dto) {
         return new Player(
                 dto.name(),
-                dto.hands().stream().map(MapperUtil::toCard).toList(),
-                dto.points(),
-                PlayerStatus.valueOf(dto.status())
+                dto.hands() != null ? dto.hands().stream().map(MapperUtil::toCard).toList() : List.of(),
+                dto.points() != null ? dto.points() : 0,
+                dto.status() != null ? PlayerStatus.valueOf(dto.status()) : PlayerStatus.CAN_PLAY
         );
     }
 
