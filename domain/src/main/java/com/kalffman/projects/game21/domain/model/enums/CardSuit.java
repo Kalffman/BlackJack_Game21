@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum CardSuit {
-    CLUBS("Paus"),
-    HEARTS("Copas"),
-    SPADES("Espadas"),
-    DIAMONDS("Ouro");
+    CLUBS("paus"),
+    HEARTS("copas"),
+    SPADES("espadas"),
+    DIAMONDS("ouro");
 
     private final String title;
 

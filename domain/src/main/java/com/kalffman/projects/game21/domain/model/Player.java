@@ -1,19 +1,35 @@
 package com.kalffman.projects.game21.domain.model;
 
 import com.kalffman.projects.game21.domain.model.enums.CardType;
+import com.kalffman.projects.game21.domain.model.enums.PlayerStatus;
+import com.kalffman.projects.game21.domain.util.DomainUtil;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
+@EqualsAndHashCode(of = "name")
 public class Player {
 
     private String name;
-    private List<Card> hands;
+    private List<Card> hands = new ArrayList<>();
+    private int points = 0;
+    private PlayerStatus status = PlayerStatus.CAN_PLAY;
 
-    public int getPoints() {
+    public Player(String name) {
+        this.name = name;
+    }
+
+    public void update() {
+        this.updatePoints();
+        this.updateStatus();
+    }
+
+    public void updatePoints() {
         List<Card> numberCards = hands.stream().filter(c -> c.getType() == CardType.NUMBER).toList();
         List<Card> figureCards = hands.stream().filter(c -> c.getType() == CardType.FIGURE && c.getValue() > 1).toList();
         List<Card> aceCards = hands.stream().filter(c -> c.getType() == CardType.FIGURE && c.getValue() == 1).toList();
@@ -24,16 +40,22 @@ public class Player {
 
         int partialSum = sumNumberCards + sumFigureCards;
 
-        return sumAceCardPoints(partialSum, aceCards.size());
+        this.points = DomainUtil.sumAceCardPoints(partialSum, aceCards.size());
     }
 
-    private int sumAceCardPoints(Integer partialSum, Integer qtdACards) {
-        if (qtdACards == 0) return partialSum;
+    public void updateStatus() {
+        int actualPoints = this.points;
 
-        boolean aceOnePoint = partialSum > 11;
+        if (actualPoints < 21) {
+            this.status = PlayerStatus.CAN_PLAY;
+        } else if (actualPoints == 21) {
+            this.status = PlayerStatus.WIN;
+        } else {
+            this.status = PlayerStatus.LOSE;
+        }
+    }
 
-        partialSum += (aceOnePoint ? 1 : 10);
-
-        return sumAceCardPoints(partialSum, qtdACards - 1);
+    public void takeCard(Card card) {
+        this.hands.add(card);
     }
 }
