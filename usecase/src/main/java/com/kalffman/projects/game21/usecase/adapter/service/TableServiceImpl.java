@@ -41,6 +41,8 @@ public class TableServiceImpl implements TableService {
 
         domainTable.sigInPlayer(player);
 
+        repository.persistTable(domainTable);
+
         log.info("[DOMAIN_USE_CASE][SIGN_IN_PLAYER] status=finished");
         return domainTable;
     }

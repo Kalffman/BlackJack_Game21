@@ -3,6 +3,7 @@ package com.kalffman.projects.game21.domain.model;
 import com.kalffman.projects.game21.domain.model.enums.PlayerStatus;
 import com.kalffman.projects.game21.domain.model.enums.ShufflerType;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Table {
 
     private final UUID id = UUID.randomUUID();

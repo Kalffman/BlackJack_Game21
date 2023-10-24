@@ -7,4 +7,6 @@ import java.util.UUID;
 public interface TableRepository {
 
     Table retrieveTable(UUID tableId);
+
+    Table persistTable(Table table);
 }

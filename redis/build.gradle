@@ -1,5 +1,6 @@
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-data-redis"
+    implementation project(":domain")
     implementation project(":output")
 
     developmentOnly "org.springframework.boot:spring-boot-devtools"
