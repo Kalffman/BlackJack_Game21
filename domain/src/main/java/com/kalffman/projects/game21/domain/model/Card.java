@@ -5,15 +5,17 @@ import com.kalffman.projects.game21.domain.model.enums.CardSuit;
 import com.kalffman.projects.game21.domain.model.enums.CardType;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString(of = "name")
 public class Card {
 
     private String name;
     private CardSuit suit;
     private CardType type;
-    private int value;
+    private Integer value;
 
     public Card(int value, CardSuit suit) {
         if(value < 1 || value > 13) {

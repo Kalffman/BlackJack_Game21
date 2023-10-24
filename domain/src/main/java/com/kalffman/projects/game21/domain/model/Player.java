@@ -3,6 +3,7 @@ package com.kalffman.projects.game21.domain.model;
 import com.kalffman.projects.game21.domain.model.enums.CardType;
 import com.kalffman.projects.game21.domain.model.enums.PlayerStatus;
 import com.kalffman.projects.game21.domain.util.DomainUtil;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,11 +14,12 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "name")
+@AllArgsConstructor
 public class Player {
 
     private String name;
     private List<Card> hands = new ArrayList<>();
-    private int points = 0;
+    private Integer points = 0;
     private PlayerStatus status = PlayerStatus.CAN_PLAY;
 
     public Player(String name) {
@@ -34,17 +36,17 @@ public class Player {
         List<Card> figureCards = hands.stream().filter(c -> c.getType() == CardType.FIGURE && c.getValue() > 1).toList();
         List<Card> aceCards = hands.stream().filter(c -> c.getType() == CardType.FIGURE && c.getValue() == 1).toList();
 
-        int sumNumberCards = numberCards.stream().mapToInt(Card::getValue).sum();
+        Integer sumNumberCards = numberCards.stream().mapToInt(Card::getValue).sum();
 
-        int sumFigureCards = figureCards.size() * 10;
+        Integer sumFigureCards = figureCards.size() * 10;
 
-        int partialSum = sumNumberCards + sumFigureCards;
+        Integer partialSum = sumNumberCards + sumFigureCards;
 
         this.points = DomainUtil.sumAceCardPoints(partialSum, aceCards.size());
     }
 
     public void updateStatus() {
-        int actualPoints = this.points;
+       Integer actualPoints = this.points;
 
         if (actualPoints < 21) {
             this.status = PlayerStatus.CAN_PLAY;

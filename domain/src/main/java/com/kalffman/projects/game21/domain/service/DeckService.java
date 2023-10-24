@@ -1,4 +1,4 @@
-package com.kalffman.projects.game21.domain.factory;
+package com.kalffman.projects.game21.domain.service;
 
 import com.kalffman.projects.game21.domain.model.Card;
 import com.kalffman.projects.game21.domain.model.enums.CardSuit;
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Class that can create deck of cards
  */
-public interface DeckFactory {
+public interface DeckService {
 
     /**
      * Factory method to generate a default deck of cards

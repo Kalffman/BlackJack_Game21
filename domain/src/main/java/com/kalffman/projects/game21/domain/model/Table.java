@@ -2,6 +2,7 @@ package com.kalffman.projects.game21.domain.model;
 
 import com.kalffman.projects.game21.domain.model.enums.PlayerStatus;
 import com.kalffman.projects.game21.domain.model.enums.ShufflerType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,20 +13,21 @@ import java.util.ArrayList;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class Table {
 
     private final UUID id = UUID.randomUUID();
     private ShufflerType shufflerType;
     private List<Card> deck;
     private List<Player> players = new ArrayList<>();
-    private int round = 1;
+    private Integer round = 1;
 
     public Table(ShufflerType shufflerType, List<Card> deck) {
         this.shufflerType = shufflerType;
         this.deck = deck;
     }
 
-    public void signInPlayer(Player player) {
+    public void sigInPlayer(Player player) {
         this.players.add(player);
     }
 

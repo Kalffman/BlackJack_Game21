@@ -1,4 +1,4 @@
-package com.kalffman.projects.game21.domain.model.common;
+package com.kalffman.projects.game21.domain.model;
 
 import com.kalffman.projects.game21.domain.model.Card;
 

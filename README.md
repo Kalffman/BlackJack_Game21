@@ -25,8 +25,8 @@ pode valer um ponto ou 11 pontos.
 
 ## Como subir a aplicação
 
-Este projeto foi desenvolvido com o Java LTS(21) que pode ser 
-baixado por este [link](https://www.graalvm.org/downloads/#)
+Este projeto foi desenvolvido com o Java 21(LTS) que pode ser 
+baixado por este [link](https://www.graalvm.org/downloads/#). Porém pode ser executado normalmente pela versão 17(LTS)
 
 Para executar a aplicação execute o seguinte comando no diretório raiz do projeto:
 

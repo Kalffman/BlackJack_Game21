@@ -1,6 +1,6 @@
-package com.kalffman.projects.game21.usecase.factory;
+package com.kalffman.projects.game21.usecase.adapter.service;
 
-import com.kalffman.projects.game21.domain.factory.DeckFactory;
+import com.kalffman.projects.game21.domain.service.DeckService;
 import com.kalffman.projects.game21.domain.model.Card;
 import com.kalffman.projects.game21.domain.model.enums.CardSuit;
 import lombok.extern.slf4j.Slf4j;
@@ -13,11 +13,11 @@ import java.util.stream.IntStream;
 
 @Service
 @Slf4j
-public class DeckFactoryImpl implements DeckFactory {
+public class DeckServiceImpl implements DeckService {
 
     @Override
     public List<Card> createFullDeck() {
-        log.debug("c=DeckFactoryImpl m=createFullDeck status=started");
+        log.info("[DOMAIN_USE_CASE][CREATE_FULL_DECK] status=started");
 
         List<Card> fullDeck = new ArrayList<>();
 
@@ -26,14 +26,12 @@ public class DeckFactoryImpl implements DeckFactory {
         fullDeck.addAll(createSuitDeck(CardSuit.SPADES));
         fullDeck.addAll(createSuitDeck(CardSuit.DIAMONDS));
 
-        log.debug("c=DeckFactoryImpl m=createFullDeck status=finished");
+        log.info("[DOMAIN_USE_CASE][CREATE_FULL_DECK] status=finished");
         return fullDeck;
     }
 
     @Override
-    public List<Card> createSuitDeck(CardSuit suit) {
-        log.debug("c=DeckFactoryImpl m=createFullDeck status=called");
-
+    public List<Card> createSuitDeck(CardSuit suit){
         return IntStream.rangeClosed(1, 13)
                 .boxed()
                 .map(cardValue -> new Card(cardValue, suit))

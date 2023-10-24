@@ -1,3 +1,9 @@
 server:
   servlet:
     context-path: /game-21
+
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
