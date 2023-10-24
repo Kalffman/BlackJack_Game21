@@ -13,8 +13,8 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@RedisHash("Table")
-public class TableEntity {
+@RedisHash("Match")
+public class MatchEntity {
     private UUID id;
     private String shufflerType;
     private List<CardEntity> deck;

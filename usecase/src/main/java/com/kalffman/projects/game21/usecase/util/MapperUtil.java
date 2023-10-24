@@ -2,18 +2,21 @@ package com.kalffman.projects.game21.usecase.util;
 
 import com.kalffman.projects.game21.domain.model.Card;
 import com.kalffman.projects.game21.domain.model.Player;
-import com.kalffman.projects.game21.domain.model.Table;
+import com.kalffman.projects.game21.domain.model.Match;
 import com.kalffman.projects.game21.domain.model.enums.CardSuit;
 import com.kalffman.projects.game21.domain.model.enums.PlayerStatus;
 import com.kalffman.projects.game21.domain.model.enums.ShufflerType;
 import com.kalffman.projects.game21.input.dto.CardInputDTO;
 import com.kalffman.projects.game21.input.dto.PlayerInputDTO;
-import com.kalffman.projects.game21.input.dto.TableInputDTO;
+import com.kalffman.projects.game21.input.dto.MatchInputDTO;
+import com.kalffman.projects.game21.output.dto.CardOutputDTO;
+import com.kalffman.projects.game21.output.dto.PlayerOutputDTO;
+import com.kalffman.projects.game21.output.dto.MatchOutputDTO;
 
 public final class MapperUtil {
 
-    public static Table toTable(TableInputDTO dto) {
-        return new Table(
+    public static Match toMatch(MatchOutputDTO dto) {
+        return new Match(
                 ShufflerType.valueOf(dto.shufflerType()),
                 dto.deck().stream().map(MapperUtil::toCard).toList(),
                 dto.players().stream().map(MapperUtil::toPlayer).toList(),
@@ -21,13 +24,22 @@ public final class MapperUtil {
         );
     }
 
-    public static TableInputDTO toTableInputDTO(Table domain) {
-        return new TableInputDTO(
-                domain.getId(),
-                domain.getShufflerType().name(),
-                domain.getDeck().stream().map(MapperUtil::toCardInputDTO).toList(),
-                domain.getPlayers().stream().map(MapperUtil::toPlayerInputDTO).toList(),
-                domain.getRound()
+    public static MatchInputDTO toMatchInputDTO(Match model) {
+        return new MatchInputDTO(
+                model.getId(),
+                model.getShufflerType().toString(),
+                model.getPlayers().stream().map(MapperUtil::toPlayerInputDTO).toList(),
+                model.getRound()
+        );
+    }
+
+    public static MatchOutputDTO toMatchOutputDTO(Match model) {
+        return new MatchOutputDTO(
+                model.getId(),
+                model.getShufflerType().toString(),
+                model.getDeck().stream().map(MapperUtil::toCardOutputDTO).toList(),
+                model.getPlayers().stream().map(MapperUtil::toPlayerOutputDTO).toList(),
+                model.getRound()
         );
     }
 
@@ -35,12 +47,20 @@ public final class MapperUtil {
         return new Card(dto.value(), CardSuit.valueOf(dto.suit()));
     }
 
-    public static CardInputDTO toCardInputDTO(Card domain) {
+    public static Card toCard(CardOutputDTO dto) {
+        return new Card(dto.value(), CardSuit.valueOf(dto.suit()));
+    }
+
+    public static CardInputDTO toCardInputDTO(Card model) {
         return new CardInputDTO(
-                domain.getName(),
-                domain.getSuit().name(),
-                domain.getValue()
+                model.getName(),
+                model.getSuit().toString(),
+                model.getValue()
         );
+    }
+
+    public static CardOutputDTO toCardOutputDTO(Card model) {
+        return new CardOutputDTO(model.getSuit().toString(), model.getValue());
     }
 
     public static Player toPlayer(PlayerInputDTO dto) {
@@ -52,12 +72,30 @@ public final class MapperUtil {
         );
     }
 
-    public static PlayerInputDTO toPlayerInputDTO(Player domain) {
+    public static Player toPlayer(PlayerOutputDTO dto) {
+        return new Player(
+                dto.name(),
+                dto.hands().stream().map(MapperUtil::toCard).toList(),
+                dto.points(),
+                PlayerStatus.valueOf(dto.status())
+        );
+    }
+
+    public static PlayerInputDTO toPlayerInputDTO(Player model) {
         return new PlayerInputDTO(
-                domain.getName(),
-                domain.getHands().stream().map(MapperUtil::toCardInputDTO).toList(),
-                domain.getPoints(),
-                domain.getStatus().name()
+                model.getName(),
+                model.getHands().stream().map(MapperUtil::toCardInputDTO).toList(),
+                model.getPoints(),
+                model.getStatus().name()
+        );
+    }
+
+    public static PlayerOutputDTO toPlayerOutputDTO(Player model) {
+        return new PlayerOutputDTO(
+                model.getName(),
+                model.getHands().stream().map(MapperUtil::toCardOutputDTO).toList(),
+                model.getPoints(),
+                model.getStatus().name()
         );
     }
 }

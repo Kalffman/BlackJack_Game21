@@ -36,17 +36,17 @@ public class Player {
         List<Card> figureCards = hands.stream().filter(c -> c.getType() == CardType.FIGURE && c.getValue() > 1).toList();
         List<Card> aceCards = hands.stream().filter(c -> c.getType() == CardType.FIGURE && c.getValue() == 1).toList();
 
-        Integer sumNumberCards = numberCards.stream().mapToInt(Card::getValue).sum();
+        var sumNumberCards = numberCards.stream().mapToInt(Card::getValue).sum();
 
-        Integer sumFigureCards = figureCards.size() * 10;
+        var sumFigureCards = figureCards.size() * 10;
 
-        Integer partialSum = sumNumberCards + sumFigureCards;
+        var partialSum = sumNumberCards + sumFigureCards;
 
         this.points = DomainUtil.sumAceCardPoints(partialSum, aceCards.size());
     }
 
     public void updateStatus() {
-       Integer actualPoints = this.points;
+       var actualPoints = this.points;
 
         if (actualPoints < 21) {
             this.status = PlayerStatus.CAN_PLAY;

@@ -1,64 +1,60 @@
 package com.kalffman.projects.game21.redis.util;
 
-import com.kalffman.projects.game21.domain.model.Card;
-import com.kalffman.projects.game21.domain.model.Player;
-import com.kalffman.projects.game21.domain.model.Table;
-import com.kalffman.projects.game21.domain.model.enums.CardSuit;
-import com.kalffman.projects.game21.domain.model.enums.PlayerStatus;
-import com.kalffman.projects.game21.domain.model.enums.ShufflerType;
+import com.kalffman.projects.game21.output.dto.CardOutputDTO;
+import com.kalffman.projects.game21.output.dto.PlayerOutputDTO;
+import com.kalffman.projects.game21.output.dto.MatchOutputDTO;
 import com.kalffman.projects.game21.redis.entity.CardEntity;
 import com.kalffman.projects.game21.redis.entity.PlayerEntity;
-import com.kalffman.projects.game21.redis.entity.TableEntity;
+import com.kalffman.projects.game21.redis.entity.MatchEntity;
 
 public final class MapperUtil {
 
-    public static Table toTable(TableEntity entity) {
-        return new Table(
-                ShufflerType.valueOf(entity.getShufflerType()),
-                entity.getDeck().stream().map(MapperUtil::toCard).toList(),
-                entity.getPlayers().stream().map(MapperUtil::toPlayer).toList(),
+    public static MatchOutputDTO toMatchOutputDTO(MatchEntity entity) {
+        return new MatchOutputDTO(
+                entity.getId(),
+                entity.getShufflerType(),
+                entity.getDeck().stream().map(MapperUtil::toCardOutputDTO).toList(),
+                entity.getPlayers().stream().map(MapperUtil::toPlayerOutputDTO).toList(),
                 entity.getRound()
         );
     }
 
-    public static TableEntity toTableEntity(Table model) {
-        return new TableEntity(
-                model.getId(),
-                model.getShufflerType().toString(),
-                model.getDeck().stream().map(MapperUtil::toCardEntity).toList(),
-                model.getPlayers().stream().map(MapperUtil::toPlayerEntity).toList(),
-                model.getRound()
+    public static MatchEntity toMatchEntity(MatchOutputDTO model) {
+        return new MatchEntity(
+                model.id(),
+                model.shufflerType(),
+                model.deck().stream().map(MapperUtil::toCardEntity).toList(),
+                model.players().stream().map(MapperUtil::toPlayerEntity).toList(),
+                model.round()
         );
     }
 
-    public static Card toCard(CardEntity entity) {
-        return new Card(entity.getValue(), CardSuit.valueOf(entity.getSuit()));
+    public static CardOutputDTO toCardOutputDTO(CardEntity entity) {
+        return new CardOutputDTO(entity.getSuit(), entity.getValue());
     }
 
-    public static CardEntity toCardEntity(Card model) {
+    public static CardEntity toCardEntity(CardOutputDTO model) {
         return new CardEntity(
-                model.getName(),
-                model.getSuit().toString(),
-                model.getType().toString(),
-                model.getValue()
+                model.suit(),
+                model.value()
         );
     }
 
-    public static Player toPlayer(PlayerEntity entity) {
-        return new Player(
+    public static PlayerOutputDTO toPlayerOutputDTO(PlayerEntity entity) {
+        return new PlayerOutputDTO(
                 entity.getName(),
-                entity.getHands().stream().map(MapperUtil::toCard).toList(),
+                entity.getHands().stream().map(MapperUtil::toCardOutputDTO).toList(),
                 entity.getPoints(),
-                PlayerStatus.valueOf(entity.getName())
+                entity.getName()
         );
     }
 
-    public static PlayerEntity toPlayerEntity(Player model) {
+    public static PlayerEntity toPlayerEntity(PlayerOutputDTO model) {
         return new PlayerEntity(
-                model.getName(),
-                model.getHands().stream().map(MapperUtil::toCardEntity).toList(),
-                model.getPoints(),
-                model.getStatus().toString()
+                model.name(),
+                model.hands().stream().map(MapperUtil::toCardEntity).toList(),
+                model.points(),
+                model.status()
         );
     }
 }

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Table {
+public class Match {
 
     private final UUID id = UUID.randomUUID();
     private ShufflerType shufflerType;
@@ -24,7 +24,7 @@ public class Table {
     private List<Player> players = new ArrayList<>();
     private Integer round = 1;
 
-    public Table(ShufflerType shufflerType, List<Card> deck) {
+    public Match(ShufflerType shufflerType, List<Card> deck) {
         this.shufflerType = shufflerType;
         this.deck = deck;
     }
@@ -36,7 +36,7 @@ public class Table {
     public void checkRound() {
         checkPlayers();
 
-        Player winner = getWinner();
+        var winner = getWinner();
 
         if (winner != null) {
 
@@ -46,7 +46,7 @@ public class Table {
     }
 
     private Player getWinner() {
-        Optional<Player> winner = this.players.stream()
+        var winner = this.players.stream()
                 .filter(p -> p.getStatus() == PlayerStatus.WIN)
                 .findFirst();
 

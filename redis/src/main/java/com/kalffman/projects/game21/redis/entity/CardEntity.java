@@ -10,8 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CardEntity {
-    private String name;
     private String suit;
-    private String type;
     private Integer value;
 }
