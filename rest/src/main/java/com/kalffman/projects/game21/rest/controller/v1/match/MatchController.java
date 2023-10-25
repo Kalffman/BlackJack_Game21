@@ -11,22 +11,35 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.UUID;
 
-@RestController
+@RestController("matchControllerV1")
 @RequestMapping(value = "/v1/match", produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-public class MatchV1Controller {
+public class MatchController {
 
     private final MatchInputService matchService;
 
-    public MatchV1Controller(MatchInputService matchService) {
+    public MatchController(MatchInputService matchService) {
         this.matchService = matchService;
     }
 
-    @PostMapping("/new")
-    public ResponseEntity<MatchInputDTO> createNewMatch() {
+    @GetMapping("/{id}")
+    public ResponseEntity<MatchInputDTO> getMatch(@PathVariable UUID id) {
+        log.debug("[CONTROLLER][GET_MATCH]");
+
+        var match = matchService.retrieveMatch(id);
+
+        if(match != null) {
+            return ResponseEntity.ok(match);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/default")
+    public ResponseEntity<MatchInputDTO> createDefaultMatch() {
         log.debug("[CONTROLLER][CREATE_NEW_MATCH]");
 
-        MatchInputDTO createdMatch = matchService.createNewMatch();
+        var createdMatch = matchService.createDefaultMatch();
 
         var location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -36,7 +49,7 @@ public class MatchV1Controller {
         return ResponseEntity.created(location).body(createdMatch);
     }
 
-    @PutMapping("/signIn")
+    @PostMapping("/signIn")
     public ResponseEntity<MatchInputDTO> signInPlayer(
             @RequestHeader UUID matchId,
             @RequestBody PlayerInputDTO player

@@ -1,4 +1,4 @@
-package com.kalffman.projects.game21.rest.controller;
+package com.kalffman.projects.game21.rest.controller.config;
 
 import com.kalffman.projects.game21.input.exception.InputException;
 import com.kalffman.projects.game21.rest.controller.dto.ApiError;

@@ -7,11 +7,13 @@ import com.kalffman.projects.game21.redis.entity.CardEntity;
 import com.kalffman.projects.game21.redis.entity.PlayerEntity;
 import com.kalffman.projects.game21.redis.entity.MatchEntity;
 
+import java.util.UUID;
+
 public final class MapperUtil {
 
     public static MatchOutputDTO toMatchOutputDTO(MatchEntity entity) {
         return new MatchOutputDTO(
-                entity.getId(),
+                UUID.fromString(entity.getId()),
                 entity.getShufflerType(),
                 entity.getDeck().stream().map(MapperUtil::toCardOutputDTO).toList(),
                 entity.getPlayers().stream().map(MapperUtil::toPlayerOutputDTO).toList(),
@@ -21,7 +23,7 @@ public final class MapperUtil {
 
     public static MatchEntity toMatchEntity(MatchOutputDTO model) {
         return new MatchEntity(
-                model.id(),
+                model.id().toString(),
                 model.shufflerType(),
                 model.deck().stream().map(MapperUtil::toCardEntity).toList(),
                 model.players().stream().map(MapperUtil::toPlayerEntity).toList(),

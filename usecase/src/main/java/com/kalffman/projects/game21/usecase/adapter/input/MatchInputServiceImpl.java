@@ -23,13 +23,30 @@ public class MatchInputServiceImpl implements MatchInputService {
     }
 
     @Override
-    public MatchInputDTO createNewMatch() {
+    public MatchInputDTO createDefaultMatch() {
         log.info("[INPUT_USE_CASE][CREATE_NEW_MATCH] status=started");
 
-        var domainMatch = domainService.createNewMatch();
+        var domainMatch = domainService.createDefaultMatch();
 
-        log.info("[INPUT_USE_CASE][CREATE_NEW_MATCH] status=finished");
+        log.info("[INPUT_USE_CASE][CREATE_NEW_MATCH] status=created matchId={}", domainMatch.getId());
         return MapperUtil.toMatchInputDTO(domainMatch);
+    }
+
+    @Override
+    public MatchInputDTO retrieveMatch(UUID matchId) {
+        log.info("[INPUT_USE_CASE][RETRIEVE_MATCH] status=started matchId={}", matchId);
+
+        var domainMatch = domainService.retrieveMatch(matchId);
+
+        if(domainMatch != null) {
+            log.info("[INPUT_USE_CASE][RETRIEVE_MATCH] status=finished matchId={}", matchId);
+
+            return MapperUtil.toMatchInputDTO(domainMatch);
+        } else {
+            log.warn("[INPUT_USE_CASE][RETRIEVE_MATCH] status=not_found matchId={}", matchId);
+
+            return null;
+        }
     }
 
     @Override

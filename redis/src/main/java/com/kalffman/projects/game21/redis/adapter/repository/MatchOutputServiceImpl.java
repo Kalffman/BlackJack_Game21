@@ -23,14 +23,14 @@ public class MatchOutputServiceImpl implements MatchOutputService {
     public MatchOutputDTO retrieveMatch(UUID matchId) {
         log.info("[REPOSITORY_USE_CASE][RETRIEVE_MATCH] status=started matchId={}", matchId);
 
-        var entity = entityRepository.findById(matchId);
+        var entity = entityRepository.findById(matchId.toString());
 
         if (entity.isPresent()) {
             log.info("[REPOSITORY_USE_CASE][RETRIEVE_MATCH] status=finished matchId={}", matchId);
 
             return MapperUtil.toMatchOutputDTO(entity.get());
         } else {
-            log.error("[REPOSITORY_USE_CASE][RETRIEVE_MATCH] status=error matchId={}", matchId);
+            log.warn("[REPOSITORY_USE_CASE][RETRIEVE_MATCH] status=error matchId={}", matchId);
 
             return null;
         }

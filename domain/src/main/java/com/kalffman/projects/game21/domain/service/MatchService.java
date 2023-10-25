@@ -7,7 +7,9 @@ import java.util.UUID;
 
 public interface MatchService {
 
-    Match createNewMatch();
+    Match createDefaultMatch();
+
+    Match retrieveMatch(UUID matchId);
 
     Match signInPlayer(Player player, UUID matchId);
 }

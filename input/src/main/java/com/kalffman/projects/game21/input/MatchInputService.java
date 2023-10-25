@@ -7,7 +7,9 @@ import java.util.UUID;
 
 public interface MatchInputService {
 
-    MatchInputDTO createNewMatch();
+    MatchInputDTO createDefaultMatch();
+
+    MatchInputDTO retrieveMatch(UUID matchId);
 
     MatchInputDTO joinPlayerInMatch(PlayerInputDTO player, UUID matchId);
 }

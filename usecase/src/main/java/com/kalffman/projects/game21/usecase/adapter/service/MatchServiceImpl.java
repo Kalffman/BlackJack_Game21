@@ -37,7 +37,7 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public Match createNewMatch() {
+    public Match createDefaultMatch() {
         log.info("[DOMAIN_USE_CASE][CREATE_NEW_MATCH] status=started");
 
         var match = new Match(ShufflerType.valueOf(applicationShuffler), deckService.createFullDeck());
@@ -48,18 +48,34 @@ public class MatchServiceImpl implements MatchService {
 
         match.setDeck(shuffledDeck);
 
-        log.info("[DOMAIN_USE_CASE][CREATE_NEW_MATCH] status=finished");
+        log.info("[DOMAIN_USE_CASE][CREATE_NEW_MATCH] status=created matchId={}", match.getId());
         return match;
     }
 
     @Override
+    public Match retrieveMatch(UUID matchId) {
+        log.info("[DOMAIN_USE_CASE][RETRIEVE_MATCH] status=started matchId={}", matchId);
+
+        var output = outputService.retrieveMatch(matchId);
+
+        if(output == null){
+            log.warn("[DOMAIN_USE_CASE][RETRIEVE_MATCH] status=not_found matchId={}", matchId);
+
+            return null;
+        } else {
+            log.info("[DOMAIN_USE_CASE][RETRIEVE_MATCH] status=finished matchId={}", matchId);
+
+            return MapperUtil.toMatch(output);
+        }
+    }
+
+    @Override
     public Match signInPlayer(Player player, UUID matchId) {
-        log.info("[DOMAIN_USE_CASE][SIGN_IN_PLAYER] status=started");
+        log.info("[DOMAIN_USE_CASE][SIGN_IN_PLAYER] status=started matchId={}", matchId);
 
         var output = outputService.retrieveMatch(matchId);
 
         if(output == null) {
-            log.error("");
             throw new MatchNotFoundException(matchId);
         }
 
@@ -69,7 +85,7 @@ public class MatchServiceImpl implements MatchService {
 
         outputService.persistMatch(MapperUtil.toMatchOutputDTO(domainMatch));
 
-        log.info("[DOMAIN_USE_CASE][SIGN_IN_PLAYER] status=finished");
+        log.info("[DOMAIN_USE_CASE][SIGN_IN_PLAYER] status=finished matchId={}", matchId);
         return domainMatch;
     }
 }
