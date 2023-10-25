@@ -18,13 +18,14 @@ import java.util.ArrayList;
 @EqualsAndHashCode(of = "id")
 public class Match {
 
-    private final UUID id = UUID.randomUUID();
+    private UUID id;
     private ShufflerType shufflerType;
     private List<Card> deck;
     private List<Player> players = new ArrayList<>();
     private Integer round = 1;
 
     public Match(ShufflerType shufflerType, List<Card> deck) {
+        this.id = UUID.randomUUID();
         this.shufflerType = shufflerType;
         this.deck = deck;
     }

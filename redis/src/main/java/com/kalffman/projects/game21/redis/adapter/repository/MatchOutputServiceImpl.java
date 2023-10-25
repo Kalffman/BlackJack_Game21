@@ -30,7 +30,7 @@ public class MatchOutputServiceImpl implements MatchOutputService {
 
             return MapperUtil.toMatchOutputDTO(entity.get());
         } else {
-            log.warn("[REPOSITORY_USE_CASE][RETRIEVE_MATCH] status=error matchId={}", matchId);
+            log.warn("[REPOSITORY_USE_CASE][RETRIEVE_MATCH] status=warn matchId={}", matchId);
 
             return null;
         }

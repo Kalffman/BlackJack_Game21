@@ -13,16 +13,19 @@ import com.kalffman.projects.game21.output.dto.CardOutputDTO;
 import com.kalffman.projects.game21.output.dto.PlayerOutputDTO;
 import com.kalffman.projects.game21.output.dto.MatchOutputDTO;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class MapperUtil {
 
     public static Match toMatch(MatchOutputDTO dto) {
         return new Match(
+                dto.id(),
                 ShufflerType.valueOf(dto.shufflerType()),
-                dto.deck().stream().map(MapperUtil::toCard).toList(),
-                dto.players().stream().map(MapperUtil::toPlayer).toList(),
+                new ArrayList<>(dto.deck().stream().map(MapperUtil::toCard).toList()),
+                new ArrayList<>(dto.players().stream().map(MapperUtil::toPlayer).toList()),
                 dto.round()
         );
     }
@@ -69,7 +72,7 @@ public final class MapperUtil {
     public static Player toPlayer(PlayerInputDTO dto) {
         return new Player(
                 dto.name(),
-                dto.hands() != null ? dto.hands().stream().map(MapperUtil::toCard).toList() : List.of(),
+                new ArrayList<>(dto.hands() != null ? dto.hands().stream().map(MapperUtil::toCard).toList() : List.of()),
                 dto.points() != null ? dto.points() : 0,
                 dto.status() != null ? PlayerStatus.valueOf(dto.status()) : PlayerStatus.CAN_PLAY
         );
@@ -78,7 +81,7 @@ public final class MapperUtil {
     public static Player toPlayer(PlayerOutputDTO dto) {
         return new Player(
                 dto.name(),
-                dto.hands().stream().map(MapperUtil::toCard).toList(),
+                new ArrayList<>(dto.hands().stream().map(MapperUtil::toCard).toList()),
                 dto.points(),
                 PlayerStatus.valueOf(dto.status())
         );
@@ -89,7 +92,7 @@ public final class MapperUtil {
                 model.getName(),
                 model.getHands().stream().map(MapperUtil::toCardInputDTO).toList(),
                 model.getPoints(),
-                model.getStatus().name()
+                model.getStatus().toString()
         );
     }
 
@@ -98,7 +101,7 @@ public final class MapperUtil {
                 model.getName(),
                 model.getHands().stream().map(MapperUtil::toCardOutputDTO).toList(),
                 model.getPoints(),
-                model.getStatus().name()
+                model.getStatus().toString()
         );
     }
 }

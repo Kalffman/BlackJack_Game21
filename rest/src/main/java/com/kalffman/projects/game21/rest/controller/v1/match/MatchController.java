@@ -1,7 +1,7 @@
 package com.kalffman.projects.game21.rest.controller.v1.match;
 
 import com.kalffman.projects.game21.input.MatchInputService;
-import com.kalffman.projects.game21.input.dto.PlayerInputDTO;
+import com.kalffman.projects.game21.input.dto.SignInPlayerInputDTO;
 import com.kalffman.projects.game21.input.dto.MatchInputDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -52,7 +52,7 @@ public class MatchController {
     @PostMapping("/signIn")
     public ResponseEntity<MatchInputDTO> signInPlayer(
             @RequestHeader UUID matchId,
-            @RequestBody PlayerInputDTO player
+            @RequestBody SignInPlayerInputDTO player
     ) {
         log.debug("[CONTROLLER][SIGN_IN_PLAYER_MATCH] matchId={} player={}", matchId, player);
 

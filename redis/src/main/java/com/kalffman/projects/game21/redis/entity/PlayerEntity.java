@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -13,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class PlayerEntity {
     private String name;
-    private List<CardEntity> hands;
+    private List<CardEntity> hands = new ArrayList<>();
     private Integer points;
     private String status;
 }

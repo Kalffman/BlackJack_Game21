@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -19,7 +20,7 @@ public class MatchEntity {
     @Id
     private String id;
     private String shufflerType;
-    private List<CardEntity> deck;
-    private List<PlayerEntity> players;
+    private List<CardEntity> deck = new ArrayList<>();
+    private List<PlayerEntity> players = new ArrayList<>();
     private Integer round;
 }

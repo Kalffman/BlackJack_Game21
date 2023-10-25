@@ -21,13 +21,13 @@ public final class MapperUtil {
         );
     }
 
-    public static MatchEntity toMatchEntity(MatchOutputDTO model) {
+    public static MatchEntity toMatchEntity(MatchOutputDTO dto) {
         return new MatchEntity(
-                model.id().toString(),
-                model.shufflerType(),
-                model.deck().stream().map(MapperUtil::toCardEntity).toList(),
-                model.players().stream().map(MapperUtil::toPlayerEntity).toList(),
-                model.round()
+                dto.id().toString(),
+                dto.shufflerType(),
+                dto.deck().stream().map(MapperUtil::toCardEntity).toList(),
+                dto.players().stream().map(MapperUtil::toPlayerEntity).toList(),
+                dto.round()
         );
     }
 
@@ -35,10 +35,10 @@ public final class MapperUtil {
         return new CardOutputDTO(entity.getSuit(), entity.getValue());
     }
 
-    public static CardEntity toCardEntity(CardOutputDTO model) {
+    public static CardEntity toCardEntity(CardOutputDTO dto) {
         return new CardEntity(
-                model.suit(),
-                model.value()
+                dto.suit(),
+                dto.value()
         );
     }
 
@@ -47,16 +47,16 @@ public final class MapperUtil {
                 entity.getName(),
                 entity.getHands().stream().map(MapperUtil::toCardOutputDTO).toList(),
                 entity.getPoints(),
-                entity.getName()
+                entity.getStatus()
         );
     }
 
-    public static PlayerEntity toPlayerEntity(PlayerOutputDTO model) {
+    public static PlayerEntity toPlayerEntity(PlayerOutputDTO dto) {
         return new PlayerEntity(
-                model.name(),
-                model.hands().stream().map(MapperUtil::toCardEntity).toList(),
-                model.points(),
-                model.status()
+                dto.name(),
+                dto.hands().stream().map(MapperUtil::toCardEntity).toList(),
+                dto.points(),
+                dto.status()
         );
     }
 }

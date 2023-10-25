@@ -48,6 +48,8 @@ public class MatchServiceImpl implements MatchService {
 
         match.setDeck(shuffledDeck);
 
+        outputService.persistMatch(MapperUtil.toMatchOutputDTO(match));
+
         log.info("[DOMAIN_USE_CASE][CREATE_NEW_MATCH] status=created matchId={}", match.getId());
         return match;
     }

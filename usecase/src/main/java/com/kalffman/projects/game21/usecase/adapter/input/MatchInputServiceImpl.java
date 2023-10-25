@@ -4,6 +4,7 @@ import com.kalffman.projects.game21.domain.exception.DomainException;
 import com.kalffman.projects.game21.domain.service.MatchService;
 import com.kalffman.projects.game21.input.MatchInputService;
 import com.kalffman.projects.game21.input.dto.PlayerInputDTO;
+import com.kalffman.projects.game21.input.dto.SignInPlayerInputDTO;
 import com.kalffman.projects.game21.input.dto.MatchInputDTO;
 import com.kalffman.projects.game21.input.exception.InputException;
 import com.kalffman.projects.game21.usecase.util.MapperUtil;
@@ -64,5 +65,9 @@ public class MatchInputServiceImpl implements MatchInputService {
 
             throw new InputException(e.getCode(), e);
         }
+    }
+    @Override
+    public MatchInputDTO joinPlayerInMatch(SignInPlayerInputDTO player, UUID matchId) {
+        return joinPlayerInMatch(new PlayerInputDTO(player.name(), null, null, null), matchId);
     }
 }
