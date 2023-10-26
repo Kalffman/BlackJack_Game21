@@ -11,3 +11,6 @@ application:
   config:
     # Values accepted: MACHINE, MANUAL
     shuffler: MACHINE
+springdoc:
+  swagger-ui:
+    display-request-duration: true
