@@ -43,7 +43,7 @@ public class MatchOutputServiceImpl implements MatchOutputService {
 
         var entity = MapperUtil.toMatchEntity(match);
 
-        log.info("[REPOSITORY_USE_CASE][PERSIST_MATCH] status=finished");
+        log.info("[REPOSITORY_USE_CASE][PERSIST_MATCH] status=persisted match={}", match);
         return MapperUtil.toMatchOutputDTO(entityRepository.save(entity));
     }
 

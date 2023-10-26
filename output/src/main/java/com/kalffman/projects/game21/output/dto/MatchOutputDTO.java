@@ -8,6 +8,8 @@ public record MatchOutputDTO(
     String shufflerType,
     List<CardOutputDTO> deck,
     List<PlayerOutputDTO> players,
-    Integer round
+    Integer round,
+    Boolean started,
+    Boolean finished
 ) {
 }

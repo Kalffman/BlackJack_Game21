@@ -7,6 +7,8 @@ public record MatchInputDTO(
     UUID id,
     String shufflerType,
     List<PlayerInputDTO> players,
-    Integer round
+    Integer round,
+    Boolean started,
+    Boolean finished
 ) {
 }

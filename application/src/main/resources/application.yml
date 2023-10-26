@@ -9,4 +9,5 @@ redis:
 
 application:
   config:
+    # Values accepted: MACHINE, MANUAL
     shuffler: MACHINE

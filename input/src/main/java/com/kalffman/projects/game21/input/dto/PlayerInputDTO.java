@@ -4,7 +4,7 @@ import java.util.List;
 
 public record PlayerInputDTO(
         String name,
-        List<CardInputDTO> hands,
+        List<String> hands,
         Integer points,
         String status
 ) {

@@ -23,4 +23,6 @@ public class MatchEntity {
     private List<CardEntity> deck = new ArrayList<>();
     private List<PlayerEntity> players = new ArrayList<>();
     private Integer round;
+    private Boolean started;
+    private Boolean finished;
 }

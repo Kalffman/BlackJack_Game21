@@ -39,7 +39,7 @@ public class MatchInputServiceImpl implements MatchInputService {
 
         var domainMatch = domainService.retrieveMatch(matchId);
 
-        if(domainMatch != null) {
+        if (domainMatch != null) {
             log.info("[INPUT_USE_CASE][RETRIEVE_MATCH] status=finished matchId={}", matchId);
 
             return MapperUtil.toMatchInputDTO(domainMatch);
@@ -51,7 +51,7 @@ public class MatchInputServiceImpl implements MatchInputService {
     }
 
     @Override
-    public MatchInputDTO joinPlayerInMatch(PlayerInputDTO player, UUID matchId) {
+    public MatchInputDTO joinPlayerInMatch(SignInPlayerInputDTO player, UUID matchId) {
         try {
             log.info("[INPUT_USE_CASE][SIGN_IN_PLAYER] status=started");
 
@@ -66,8 +66,19 @@ public class MatchInputServiceImpl implements MatchInputService {
             throw new InputException(e.getCode(), e);
         }
     }
+
     @Override
-    public MatchInputDTO joinPlayerInMatch(SignInPlayerInputDTO player, UUID matchId) {
-        return joinPlayerInMatch(new PlayerInputDTO(player.name(), null, null, null), matchId);
+    public MatchInputDTO pullCardInMatch(String playerName, UUID matchId) {
+        try {
+            log.info("[INPUT_USE_CASE][TAKE_CARD] status=called playerName={} matchId={}", playerName, matchId);
+
+            var domainMatch = domainService.pullCardInMatch(playerName, matchId);
+
+            log.info("[INPUT_USE_CASE][TAKE_CARD] status=done playerName={} matchId={}", playerName, matchId);
+            return MapperUtil.toMatchInputDTO(domainMatch);
+        } catch (DomainException e) {
+
+            throw new InputException(e.getCode(), e);
+        }
     }
 }

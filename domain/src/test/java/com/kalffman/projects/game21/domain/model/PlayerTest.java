@@ -12,9 +12,9 @@ public class PlayerTest {
     void shouldGiveCorrectPointsToGivenCards() {
         Player jeff = new Player("Jeff");
 
-        jeff.takeCard(new Card(2, CardSuit.SPADES));
-        jeff.takeCard(new Card(3, CardSuit.HEARTS));
-        jeff.takeCard(new Card(11, CardSuit.CLUBS));
+        jeff.pullCard(new Card(2, CardSuit.SPADES));
+        jeff.pullCard(new Card(3, CardSuit.HEARTS));
+        jeff.pullCard(new Card(11, CardSuit.CLUBS));
 
         jeff.updatePoints();
 
@@ -25,11 +25,11 @@ public class PlayerTest {
     void shouldGiveCorrectPointsAndStatusWinnerToGivenAceCards() {
         Player jeff = new Player("Jeff");
 
-        jeff.takeCard(new Card(1, CardSuit.SPADES));
-        jeff.takeCard(new Card(1, CardSuit.HEARTS));
-        jeff.takeCard(new Card(1, CardSuit.CLUBS));
+        jeff.pullCard(new Card(1, CardSuit.SPADES));
+        jeff.pullCard(new Card(1, CardSuit.HEARTS));
+        jeff.pullCard(new Card(1, CardSuit.CLUBS));
 
-        jeff.update();
+        jeff.updateStatus();
 
         assertEquals(21, jeff.getPoints());
         assertEquals(PlayerStatus.WIN, jeff.getStatus());
@@ -39,14 +39,28 @@ public class PlayerTest {
     void shouldGiveCorrectPointsAndStatusLoserToGivenAceCards() {
         Player jeff = new Player("Jeff");
 
-        jeff.takeCard(new Card(1, CardSuit.SPADES));
-        jeff.takeCard(new Card(1, CardSuit.HEARTS));
-        jeff.takeCard(new Card(1, CardSuit.CLUBS));
-        jeff.takeCard(new Card(1, CardSuit.DIAMONDS));
+        jeff.pullCard(new Card(1, CardSuit.SPADES));
+        jeff.pullCard(new Card(1, CardSuit.HEARTS));
+        jeff.pullCard(new Card(1, CardSuit.CLUBS));
+        jeff.pullCard(new Card(1, CardSuit.DIAMONDS));
 
-        jeff.update();
+        jeff.updateStatus();
 
         assertEquals(22, jeff.getPoints());
         assertEquals(PlayerStatus.LOSE, jeff.getStatus());
+    }
+
+    @Test
+    void shouldGiveCorrectPointsAndStatusWinToGivenFigureCards() {
+        Player jeff = new Player("jeff");
+
+        jeff.pullCard(new Card(1, CardSuit.SPADES));
+        jeff.pullCard(new Card(11, CardSuit.SPADES));
+        jeff.pullCard(new Card(12, CardSuit.SPADES));
+
+        jeff.updateStatus();
+
+        assertEquals(21, jeff.getPoints());
+        assertEquals(PlayerStatus.WIN, jeff.getStatus());
     }
 }

@@ -1,10 +1,12 @@
 package com.kalffman.projects.game21.usecase.adapter.service;
 
+import com.kalffman.projects.game21.domain.exception.DomainException;
+import com.kalffman.projects.game21.domain.exception.GiveCardNotAllowedException;
 import com.kalffman.projects.game21.domain.exception.MatchNotFoundException;
 import com.kalffman.projects.game21.domain.model.Player;
 import com.kalffman.projects.game21.domain.model.Match;
-import com.kalffman.projects.game21.domain.model.enums.ShufflerType;
-import com.kalffman.projects.game21.domain.service.ShuffleStyleService;
+import com.kalffman.projects.game21.domain.model.enums.DealerType;
+import com.kalffman.projects.game21.domain.service.DealerService;
 import com.kalffman.projects.game21.output.MatchOutputService;
 import com.kalffman.projects.game21.domain.service.DeckService;
 import com.kalffman.projects.game21.domain.service.MatchService;
@@ -22,31 +24,29 @@ public class MatchServiceImpl implements MatchService {
     private final String applicationShuffler;
     private final DeckService deckService;
     private final MatchOutputService outputService;
-    private final ShuffleStyleService shuffleStyleService;
+    private final DealerService dealerService;
 
     public MatchServiceImpl(
             @Value("${application.config.shuffler}")
             String applicationShuffler,
             DeckService deckService,
             MatchOutputService outputService,
-            ShuffleStyleService shuffleStyleService) {
+            DealerService dealerService) {
         this.applicationShuffler = applicationShuffler;
         this.deckService = deckService;
         this.outputService = outputService;
-        this.shuffleStyleService = shuffleStyleService;
+        this.dealerService = dealerService;
     }
 
     @Override
     public Match createDefaultMatch() {
         log.info("[DOMAIN_USE_CASE][CREATE_NEW_MATCH] status=started");
 
-        var match = new Match(ShufflerType.valueOf(applicationShuffler), deckService.createFullDeck());
+        var match = new Match(DealerType.valueOf(applicationShuffler), deckService.createFullDeck());
 
-        var shuffler = shuffleStyleService.retrieveShuffleStyle(match.getShufflerType());
+        var dealer = dealerService.callDealer(match.getDealerType());
 
-        var shuffledDeck = shuffler.doShuffle(match.getDeck());
-
-        match.setDeck(shuffledDeck);
+        dealer.shuffleCards(match);
 
         outputService.persistMatch(MapperUtil.toMatchOutputDTO(match));
 
@@ -75,13 +75,13 @@ public class MatchServiceImpl implements MatchService {
     public Match signInPlayer(Player player, UUID matchId) {
         log.info("[DOMAIN_USE_CASE][SIGN_IN_PLAYER] status=started matchId={}", matchId);
 
-        var output = outputService.retrieveMatch(matchId);
+        var matchOutput = outputService.retrieveMatch(matchId);
 
-        if(output == null) {
+        if(matchOutput == null) {
             throw new MatchNotFoundException(matchId);
         }
 
-        var domainMatch = MapperUtil.toMatch(output);
+        var domainMatch = MapperUtil.toMatch(matchOutput);
 
         domainMatch.sigInPlayer(player);
 
@@ -89,5 +89,37 @@ public class MatchServiceImpl implements MatchService {
 
         log.info("[DOMAIN_USE_CASE][SIGN_IN_PLAYER] status=finished matchId={}", matchId);
         return domainMatch;
+    }
+
+    @Override
+    public Match pullCardInMatch(String playerName, UUID matchId) throws DomainException {
+        log.info("[DOMAIN_USE_CASE][PLAYER_ACTION] status=started playerName={} matchId={}", playerName, matchId);
+
+        var matchOutput = outputService.retrieveMatch(matchId);
+
+        if(matchOutput == null) {
+            throw new MatchNotFoundException(matchId);
+        }
+
+        var match = MapperUtil.toMatch(matchOutput);
+
+        var player = match.findPlayerInMatch(playerName);
+
+        var dealer = dealerService.callDealer(match.getDealerType());
+
+        if(!dealer.shouldGiveCard(player, match)) {
+            throw new GiveCardNotAllowedException();
+        }
+
+        player.pullCard(dealer.giveCard(match));
+
+        match.updatePlayer(player);
+
+        match.checkRound();
+
+        outputService.persistMatch(MapperUtil.toMatchOutputDTO(match));
+
+        log.info("[DOMAIN_USE_CASE][PLAYER_ACTION] status=finished playerName={} matchId={}", playerName, matchId);
+        return match;
     }
 }

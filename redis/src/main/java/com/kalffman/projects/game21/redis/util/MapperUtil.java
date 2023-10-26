@@ -17,7 +17,9 @@ public final class MapperUtil {
                 entity.getShufflerType(),
                 entity.getDeck().stream().map(MapperUtil::toCardOutputDTO).toList(),
                 entity.getPlayers().stream().map(MapperUtil::toPlayerOutputDTO).toList(),
-                entity.getRound()
+                entity.getRound(),
+                entity.getStarted(),
+                entity.getFinished()
         );
     }
 
@@ -27,7 +29,9 @@ public final class MapperUtil {
                 dto.shufflerType(),
                 dto.deck().stream().map(MapperUtil::toCardEntity).toList(),
                 dto.players().stream().map(MapperUtil::toPlayerEntity).toList(),
-                dto.round()
+                dto.round(),
+                dto.started(),
+                dto.finished()
         );
     }
 

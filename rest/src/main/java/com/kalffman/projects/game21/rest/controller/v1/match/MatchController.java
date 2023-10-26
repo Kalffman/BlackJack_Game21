@@ -22,11 +22,11 @@ public class MatchController {
         this.matchService = matchService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<MatchInputDTO> getMatch(@PathVariable UUID id) {
+    @GetMapping("/{matchId}")
+    public ResponseEntity<MatchInputDTO> getMatch(@PathVariable UUID matchId) {
         log.debug("[CONTROLLER][GET_MATCH]");
 
-        var match = matchService.retrieveMatch(id);
+        var match = matchService.retrieveMatch(matchId);
 
         if(match != null) {
             return ResponseEntity.ok(match);
@@ -35,7 +35,7 @@ public class MatchController {
         }
     }
 
-    @PostMapping("/default")
+    @PostMapping
     public ResponseEntity<MatchInputDTO> createDefaultMatch() {
         log.debug("[CONTROLLER][CREATE_NEW_MATCH]");
 
@@ -49,13 +49,25 @@ public class MatchController {
         return ResponseEntity.created(location).body(createdMatch);
     }
 
-    @PostMapping("/signIn")
+    @PutMapping("/{matchId}/sign-in")
     public ResponseEntity<MatchInputDTO> signInPlayer(
-            @RequestHeader UUID matchId,
+            @PathVariable UUID matchId,
             @RequestBody SignInPlayerInputDTO player
     ) {
         log.debug("[CONTROLLER][SIGN_IN_PLAYER_MATCH] matchId={} player={}", matchId, player);
 
         return ResponseEntity.ok(matchService.joinPlayerInMatch(player, matchId));
+    }
+
+    @PutMapping("/{matchId}/pull-card")
+    public ResponseEntity<MatchInputDTO> pullCard(
+            @PathVariable UUID matchId,
+            @RequestHeader String playerName
+    ) {
+        log.debug("[CONTROLLER][TAKE_CARD] matchId={} playerName", matchId);
+
+        var updatedMatch = matchService.pullCardInMatch(playerName, matchId);
+
+        return ResponseEntity.accepted().body(updatedMatch);
     }
 }

@@ -26,11 +26,6 @@ public class Player {
         this.name = name;
     }
 
-    public void update() {
-        this.updatePoints();
-        this.updateStatus();
-    }
-
     public void updatePoints() {
         List<Card> numberCards = hands.stream().filter(c -> c.getType() == CardType.NUMBER).toList();
         List<Card> figureCards = hands.stream().filter(c -> c.getType() == CardType.FIGURE && c.getValue() > 1).toList();
@@ -46,7 +41,9 @@ public class Player {
     }
 
     public void updateStatus() {
-       var actualPoints = this.points;
+        this.updatePoints();
+
+        var actualPoints = this.points;
 
         if (actualPoints < 21) {
             this.status = PlayerStatus.CAN_PLAY;
@@ -57,7 +54,7 @@ public class Player {
         }
     }
 
-    public void takeCard(Card card) {
+    public void pullCard(Card card) {
         this.hands.add(card);
     }
 }

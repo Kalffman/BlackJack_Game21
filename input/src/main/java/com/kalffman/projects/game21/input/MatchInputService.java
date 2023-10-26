@@ -12,7 +12,7 @@ public interface MatchInputService {
 
     MatchInputDTO retrieveMatch(UUID matchId);
 
-    MatchInputDTO joinPlayerInMatch(PlayerInputDTO player, UUID matchId);
-
     MatchInputDTO joinPlayerInMatch(SignInPlayerInputDTO player, UUID matchId);
+
+    MatchInputDTO pullCardInMatch(String playerName, UUID matchId);
 }
